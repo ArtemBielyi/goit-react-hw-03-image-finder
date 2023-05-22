@@ -10,7 +10,7 @@ export class ImageGalleryItem extends Component {
     if (prevProps.searchName !== this.props.searchName) {
       this.setState({ loading: true });
       fetch(
-        `https://pixabay.com/api/?q=${this.props.searchName}&page=1&key=35172830-be7dc29c069ae2fbfd826fe75&image_type=photo&orientation=horizontal&per_page=12`
+        `https://pixabay.com/api/?q=${this.props.searchName}&page=${this.props.page}&key=35172830-be7dc29c069ae2fbfd826fe75&image_type=photo&orientation=horizontal&per_page=12`
       )
         .then(res => res.json())
         .then(data => {
@@ -32,7 +32,7 @@ export class ImageGalleryItem extends Component {
         {search &&
           search.map(item => (
             <li key={item.id} className="gallery-item">
-              <img src={item.webformatURL} alt="" />
+              <img src={item.webformatURL} alt={item.tags} />
             </li>
           ))}
       </>
