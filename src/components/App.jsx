@@ -10,6 +10,7 @@ export class App extends Component {
   };
 
   handleFormSubmit = searchName => this.setState({ searchName });
+
   render() {
     return (
       <div>
