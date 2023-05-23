@@ -51,7 +51,7 @@ export class App extends Component {
   };
 
   render() {
-    const { searchName, searchResults, loading } = this.state;
+    const { searchResults, loading } = this.state;
 
     return (
       <div>
