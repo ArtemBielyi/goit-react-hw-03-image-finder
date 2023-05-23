@@ -39,6 +39,7 @@ export class App extends Component {
   handleLoadMoreButton = () => {
     this.setState(
       prevState => {
+        console.log(prevState);
         return {
           page: prevState.page + 1,
         };
