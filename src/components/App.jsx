@@ -58,7 +58,7 @@ export class App extends Component {
         <ToastContainer autoClose={1000} />
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery
-          searchName={this.state.searchName}
+          searchResults={this.state.searchResults}
           page={this.state.page}
         />
         {loading && <p>Loading...</p>}
