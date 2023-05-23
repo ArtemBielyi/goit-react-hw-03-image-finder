@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,21 +11,47 @@ export class App extends Component {
   state = {
     searchName: '',
     page: 1,
+    searchResults: [],
+    loading: false,
   };
 
-  handleFormSubmit = searchName => this.setState({ searchName });
-
-  handleLoadMoreButton = () => {
-    this.setState(prevState => {
-      console.log(prevState);
-      getSearchImages(this.searchName);
-      return {
-        page: prevState.page + 1,
-      };
+  handleFormSubmit = searchName => {
+    this.setState({ searchName, page: 1, searchResults: [] }, () => {
+      this.fetchData();
     });
   };
 
+  fetchData = () => {
+    const { searchName, page } = this.state;
+    this.setState({ loading: true });
+
+    getSearchImages(searchName, page)
+      .then(data => {
+        this.setState(prevState => ({
+          searchResults: [...prevState.searchResults, ...data.hits],
+        }));
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+      });
+  };
+
+  handleLoadMoreButton = () => {
+    this.setState(
+      prevState => {
+        return {
+          page: prevState.page + 1,
+        };
+      },
+      () => {
+        this.fetchData();
+      }
+    );
+  };
+
   render() {
+    const { searchName, searchResults, loading } = this.state;
+
     return (
       <div>
         <ToastContainer autoClose={1000} />
@@ -34,10 +60,10 @@ export class App extends Component {
           searchName={this.state.searchName}
           page={this.state.page}
         />
-        <LoadMoreBtn
-          handleLoadMoreButton={this.handleLoadMoreButton}
-          onClick={this.getSearchImages}
-        />
+        {loading && <p>Loading...</p>}
+        {!loading && searchResults.length > 0 && (
+          <LoadMoreBtn handleLoadMoreButton={this.handleLoadMoreButton} />
+        )}
       </div>
     );
   }
