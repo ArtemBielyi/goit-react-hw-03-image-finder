@@ -18,6 +18,7 @@ export class App extends Component {
   handleLoadMoreButton = () => {
     this.setState(prevState => {
       console.log(prevState);
+      getSearchImages(this.searchName);
       return {
         page: prevState.page + 1,
       };
@@ -34,7 +35,7 @@ export class App extends Component {
           page={this.state.page}
         />
         <LoadMoreBtn
-          handleLoad={this.handleLoadMoreButton}
+          handleLoadMoreButton={this.handleLoadMoreButton}
           onClick={this.getSearchImages}
         />
       </div>

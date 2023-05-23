@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import getSearchImages from 'components/fetchApi';
 export class ImageGalleryItem extends Component {
   state = {
     search: null,
@@ -9,10 +9,7 @@ export class ImageGalleryItem extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.searchName !== this.props.searchName) {
       this.setState({ loading: true });
-      fetch(
-        `https://pixabay.com/api/?q=${this.props.searchName}&page=${this.props.page}&key=35172830-be7dc29c069ae2fbfd826fe75&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(res => res.json())
+      getSearchImages(this.props.searchName)
         .then(data => {
           this.setState({ search: data.hits });
         })
