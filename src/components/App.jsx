@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import css from './App.module.css';
 
 import Searchbar from './Searchbar/Searchbar.jsx';
 import ImageGallery from './ImageGallery/ImageGallery.jsx';
 import { LoadMoreBtn } from './Button/Button.jsx';
 import { getSearchImages } from './fetchApi.js';
+import { ProgressBar } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
@@ -51,18 +53,21 @@ export class App extends Component {
   };
 
   render() {
-    const { searchResults, loading } = this.state;
+    const { searchResults, loading, page } = this.state;
+    const hasMoreImages =
+      searchResults.length > 0 && page * 10 <= searchResults.length;
 
     return (
-      <div>
+      <div className={css.App}>
         <ToastContainer autoClose={1000} />
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery
           searchResults={this.state.searchResults}
           page={this.state.page}
         />
-        {loading && <p>Loading...</p>}
-        {!loading && searchResults.length > 0 && (
+
+        {loading && <ProgressBar />}
+        {!loading && hasMoreImages && (
           <LoadMoreBtn handleLoadMoreButton={this.handleLoadMoreButton} />
         )}
       </div>

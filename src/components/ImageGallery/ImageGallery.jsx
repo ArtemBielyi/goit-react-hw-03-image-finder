@@ -1,9 +1,10 @@
 import React from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem.jsx';
+import css from './ImageGallery.module.css';
 
 const ImageGallery = ({ searchResults }) => {
   return (
-    <ul>
+    <ul className={css.ImageGallery}>
       {searchResults.map(({ id, webformatURL, largeImageURL, tags }) => (
         <ImageGalleryItem
           key={id}
