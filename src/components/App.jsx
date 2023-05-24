@@ -24,8 +24,9 @@ export class App extends Component {
   };
 
   toggleModal = largeImageURL => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      largeImageURL: largeImageURL,
     }));
   };
 
@@ -35,26 +36,27 @@ export class App extends Component {
     });
   };
 
-  getlargeImageURL = largeImageURL => {
-    this.setState({ largeImageURL });
-  };
-
   fetchData = () => {
     const { searchName, page } = this.state;
     this.setState({ loading: true });
 
     getSearchImages(searchName, page)
       .then(data => {
-        this.setState(prevState => ({
-          searchResults: [...prevState.searchResults, ...data.hits],
-        }));
-
         if (data.hits.length === 0) {
           toast('write a correct search query');
-
           this.setState({ noResults: true });
         } else {
-          this.setState({ noResults: false });
+          const newHits = data.hits.map(
+            ({ id, webformatURL, largeImageURL }) => ({
+              id,
+              webformatURL,
+              largeImageURL,
+            })
+          );
+
+          this.setState(prevState => ({
+            searchResults: [...prevState.searchResults, ...newHits],
+          }));
         }
       })
       .catch(error => this.setState({ error, searchResults: [] }))
@@ -66,7 +68,6 @@ export class App extends Component {
   handleLoadMoreButton = () => {
     this.setState(
       prevState => {
-        console.log(prevState);
         return {
           page: prevState.page + 1,
         };
@@ -91,7 +92,6 @@ export class App extends Component {
 
     const hasMoreImages =
       searchResults.length > 0 && page * 10 <= searchResults.length;
-    console.log(largeImageURL);
 
     return (
       <div className={css.App}>
