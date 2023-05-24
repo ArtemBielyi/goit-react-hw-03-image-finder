@@ -6,19 +6,29 @@ const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
   //  const { alt, largeImageURL } = this.props;
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = e => {
+    if (e.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+  handleBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      this.props.onClose();
+    }
+  };
   render() {
     return createPortal(
-      <div className={css.Overlay} onClick={this.toggleModal}>
-        <div className={css.Modal}>
-          <img src={this.props.children} alt={this.props.alt} />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
-            incidunt rerum aut saepe non ducimus repellendus deleniti dicta
-            delectus obcaecati suscipit est sed fugiat maiores explicabo sunt!
-            Magnam explicabo animi sapiente quidem. Ipsa adipisci voluptatibus,
-            voluptate quidem sapiente voluptas id!
-          </p>
-        </div>
+      <div className={css.Overlay} onClick={this.handleBackdropClick}>
+        <div className={css.Modal}>{this.props.children}</div>
       </div>,
       modalRoot
     );

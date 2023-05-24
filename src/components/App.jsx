@@ -20,7 +20,7 @@ export class App extends Component {
     error: false,
     noResults: false,
     showModal: false,
-    largeImageURL: '',
+    largeImageURL: null,
   };
   toggleModal = largeImageURL => {
     this.setState(({ showModal }) => ({
@@ -83,10 +83,11 @@ export class App extends Component {
       noResults,
       showModal,
       largeImageURL,
+      tags,
     } = this.state;
     const hasMoreImages =
       searchResults.length > 0 && page * 10 <= searchResults.length;
-
+    console.log(largeImageURL);
     return (
       <div className={css.App}>
         <ToastContainer autoClose={1000} />
@@ -94,10 +95,11 @@ export class App extends Component {
         <ImageGallery searchResults={searchResults} page={page} />
         {noResults && <h1>No results with "{searchName}"</h1>}
         {showModal && (
-          <Modal onClose={this.toogleModal}>
-            <img src={largeImageURL} />
+          <Modal onClose={this.toggleModal}>
+            <img src={largeImageURL} alt={tags} />
           </Modal>
         )}
+
         {loading && <ProgressBar />}
         {!loading && hasMoreImages && (
           <LoadMoreBtn handleLoadMoreButton={this.handleLoadMoreButton} />

@@ -2,7 +2,8 @@ import React from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem.jsx';
 import css from './ImageGallery.module.css';
 
-const ImageGallery = ({ searchResults }) => {
+const ImageGallery = ({ searchResults, onClick }) => {
+  console.log(searchResults);
   return (
     <ul className={css.ImageGallery}>
       {searchResults.map(({ id, webformatURL, largeImageURL, tags }) => (
@@ -11,6 +12,7 @@ const ImageGallery = ({ searchResults }) => {
           webformatURL={webformatURL}
           largeImageURL={largeImageURL}
           tags={tags}
+          onClick={onClick}
         />
       ))}
     </ul>
