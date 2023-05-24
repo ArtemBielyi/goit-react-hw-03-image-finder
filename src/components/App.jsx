@@ -22,20 +22,23 @@ export class App extends Component {
     showModal: false,
     largeImageURL: null,
   };
+
   toggleModal = largeImageURL => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
-    this.setState({ largeImageURL: largeImageURL });
   };
+
   handleFormSubmit = searchName => {
     this.setState({ searchName, page: 1, searchResults: [] }, () => {
       this.fetchData();
     });
   };
+
   getlargeImageURL = largeImageURL => {
     this.setState({ largeImageURL });
   };
+
   fetchData = () => {
     const { searchName, page } = this.state;
     this.setState({ loading: true });
@@ -85,15 +88,21 @@ export class App extends Component {
       largeImageURL,
       tags,
     } = this.state;
+
     const hasMoreImages =
       searchResults.length > 0 && page * 10 <= searchResults.length;
     console.log(largeImageURL);
+
     return (
       <div className={css.App}>
         <ToastContainer autoClose={1000} />
+
         <Searchbar onSubmit={this.handleFormSubmit} />
+
         <ImageGallery searchResults={searchResults} page={page} />
+
         {noResults && <h1>No results with "{searchName}"</h1>}
+
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={largeImageURL} alt={tags} />
@@ -101,6 +110,7 @@ export class App extends Component {
         )}
 
         {loading && <ProgressBar />}
+
         {!loading && hasMoreImages && (
           <LoadMoreBtn handleLoadMoreButton={this.handleLoadMoreButton} />
         )}
