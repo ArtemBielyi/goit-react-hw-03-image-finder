@@ -13,7 +13,7 @@ export class Searchbar extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.state.searchName.trim() === '') {
-      toast('write a name');
+      toast('write a search query');
       return;
     }
     this.props.onSubmit(this.state.searchName);
