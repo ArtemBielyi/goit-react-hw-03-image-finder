@@ -31,6 +31,10 @@ export class App extends Component {
   };
 
   handleFormSubmit = searchName => {
+    if (this.state.searchName === searchName) {
+      return;
+    }
+
     this.setState({ searchName, page: 1, searchResults: [] }, () => {
       this.fetchData();
     });
@@ -61,7 +65,7 @@ export class App extends Component {
       })
       .catch(error => this.setState({ error, searchResults: [] }))
       .finally(() => {
-        this.setState({ loading: false });
+        this.setState({ loading: false, noResults: false });
       });
   };
 
@@ -95,7 +99,7 @@ export class App extends Component {
 
     return (
       <div className={css.App}>
-        <ToastContainer autoClose={1000} />
+        <ToastContainer autoClose={2000} />
 
         <Searchbar onSubmit={this.handleFormSubmit} />
 

@@ -1,5 +1,5 @@
 import React from 'react';
-// import getSearchImages from 'components/fetchApi';
+import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, onClick }) => (
   <li
@@ -11,5 +11,11 @@ const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, onClick }) => (
     <img className={css.ImageGalleryItemimage} src={webformatURL} alt={tags} />
   </li>
 );
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default ImageGalleryItem;
