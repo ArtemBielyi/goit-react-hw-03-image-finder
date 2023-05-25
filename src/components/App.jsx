@@ -99,7 +99,10 @@ export class App extends Component {
 
         <Searchbar onSubmit={this.handleFormSubmit} />
 
-        <ImageGallery searchResults={searchResults} page={page} />
+        <ImageGallery
+          searchResults={searchResults}
+          onClick={this.toggleModal}
+        />
 
         {noResults && <h1>No results with "{searchName}"</h1>}
 
