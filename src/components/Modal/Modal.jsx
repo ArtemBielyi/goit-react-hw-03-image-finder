@@ -5,8 +5,6 @@ import css from './Modal.module.css';
 const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
-  //  const { alt, largeImageURL } = this.props;
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
