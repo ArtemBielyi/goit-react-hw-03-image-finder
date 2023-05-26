@@ -23,6 +23,17 @@ export class App extends Component {
     largeImageURL: null,
   };
 
+  componentDidUpdate(_, prevState) {
+    const { page } = this.state;
+
+    if (
+      prevState.searchName !== this.state.searchName ||
+      prevState.page !== page
+    ) {
+      this.fetchData();
+    }
+  }
+
   toggleModal = largeImageURL => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
@@ -34,10 +45,14 @@ export class App extends Component {
     if (this.state.searchName === searchName) {
       return;
     }
+    this.setState({ searchName, page: 1, searchResults: [] });
+  };
 
-    this.setState({ searchName, page: 1, searchResults: [] }, () => {
-      this.fetchData();
-    });
+  handleLoadMoreButton = () => {
+    this.setState(({ page }) => ({
+      page: page + 1,
+      loading: true,
+    }));
   };
 
   fetchData = () => {
@@ -69,30 +84,9 @@ export class App extends Component {
       });
   };
 
-  handleLoadMoreButton = () => {
-    this.setState(
-      prevState => {
-        return {
-          page: prevState.page + 1,
-        };
-      },
-      () => {
-        this.fetchData();
-      }
-    );
-  };
-
   render() {
-    const {
-      searchResults,
-      loading,
-      page,
-      searchName,
-      noResults,
-      showModal,
-      largeImageURL,
-      tags,
-    } = this.state;
+    const { searchResults, loading, page, showModal, largeImageURL, tags } =
+      this.state;
 
     const hasMoreImages =
       searchResults.length > 0 && page * 10 <= searchResults.length;
@@ -107,8 +101,6 @@ export class App extends Component {
           searchResults={searchResults}
           onClick={this.toggleModal}
         />
-
-        {noResults && <h1>No results with "{searchName}"</h1>}
 
         {showModal && (
           <Modal onClose={this.toggleModal}>
