@@ -6,7 +6,6 @@ import css from './Loader.module.css';
     height="80"
     width="80"
     ariaLabel="progress-bar-loading"
-    // wrapperClass="progress-bar-wrapper"
     className={css.loaders}
     borderColor="#F1142E"
     barColor="#51E5FF"
